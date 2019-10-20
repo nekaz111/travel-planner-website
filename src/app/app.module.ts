@@ -20,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     NgbModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyD3hUjLo3m61lN4RPkwNwkORUmXRMbaOrE'
+      apiKey: 'AIzaSyD3hUjLo3m61lN4RPkwNwkORUmXRMbaOrE',
+      libraries: ['geometry', 'places']
     })
   ],
   providers: [],

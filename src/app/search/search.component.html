@@ -1,21 +1,17 @@
-
 <div class="jumbotron">
   <h2>Search Page</h2>
 </div>
 <div class="panel panel-primary">
-  <div class="panel-heading">Google Map Restaurant Search</div>
-  <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
-    <input type="text" name="restaurantaddress" placeholder="Enter Address" ngModel>
-    <br />
-    <input type="submit" value="Search">
-  </form>
+  <div class="panel-heading">Google Maps Restaurant Search</div>
+  <div class="form-group">
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Address" #search>
+  </div>
   <div class="panel-body">
     <!-- this creates a google map on the page with the given lat/lng from -->
     <!-- the component as the initial center of the map: -->
-    <agm-map [latitude]= "lat" [longitude]= "lng">
-      <agm-marker [latitude]= "lat" [longitude]= "lng"></agm-marker>
+    <agm-map [latitude]="lat" [longitude]="lng">
+      <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
     </agm-map>
-
   </div>
-
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3hUjLo3m61lN4RPkwNwkORUmXRMbaOrE&libraries=places&callback=initMap" async defer></script>
