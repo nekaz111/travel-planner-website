@@ -1,0 +1,21 @@
+
+<div class="jumbotron">
+  <h2>Search Page</h2>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading">Google Map Restaurant Search</div>
+  <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+    <input type="text" name="restaurantaddress" placeholder="Enter Address" ngModel>
+    <br />
+    <input type="submit" value="Search">
+  </form>
+  <div class="panel-body">
+    <!-- this creates a google map on the page with the given lat/lng from -->
+    <!-- the component as the initial center of the map: -->
+    <agm-map [latitude]= "lat" [longitude]= "lng">
+      <agm-marker [latitude]= "lat" [longitude]= "lng"></agm-marker>
+    </agm-map>
+
+  </div>
+
+</div>
