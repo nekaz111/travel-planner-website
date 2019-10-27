@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone  } from '@angular/core';
+//noted issue: agm-circle blocks map markers for reason
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 
@@ -42,6 +43,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
+      //this.infowindow = new google.maps.InfoWindow();
       //this.restaurants = ""
       //get user location if tracking is allowed
       this.setCurrentLocation();
@@ -76,7 +78,7 @@ export class SearchComponent implements OnInit {
       });
 
       //var pyrmont = new google.maps.LatLng(42.651718, -73.755089);
-      //this.infowindow = new google.maps.InfoWindow();
+      
       //this.map = new google.maps.Map(document.getElementById('map'), {
      //   center: pyrmont,
      //   zoom: 15
@@ -93,22 +95,32 @@ export class SearchComponent implements OnInit {
       radius: '500',
       type: ['restaurant']
     };
-    /*//draw circle
-    var cityCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      //map: map,
-      center: { lat: latitude, lng: longitude },
-      radius: 1000
-    });
-    */
     this.service = new google.maps.places.PlacesService(document.createElement('div'));
     this.service.nearbySearch(request, this.callback);
   }
 
+  //get place details from library using placeid
+  getDetails(placeID) {
+    var request = {
+      placeId: placeID,
+      fields: ['name', 'formatted_address', 'place_id', 'geometry']
+    };
+    this.service.getDetails(request, function (place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+        //var marker = new google.maps.Marker({
+        //  map: map,
+        //  position: place.geometry.location
+        //});
+        //google.maps.event.addListener(marker, 'click', function () {
+          //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+          //  'Place ID: ' + place.place_id + '<br>' +
+          //  place.formatted_address + '</div>');
+          //infowindow.open(map, this);
+        //});
+      }
+    });
+  }
 
   callback(results, status) {
     let restaurants = "";
@@ -116,9 +128,14 @@ export class SearchComponent implements OnInit {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       //loop through all values
       for (var i = 0; i < results.length; i++) {
+
         //var place = results[i];
         //add results to string to be output
-        restaurants += "Name: " + results[i].name + "<br>";
+        //use placeid to get specific details
+        restaurants += "<strong>Name: </strong>" + results[i].name + "<br>" + "<strong>PlaceID: </strong>" + results[i].place_id + "<br>" + "<strong>Coordinates: </strong>" + results[i].geometry.location + "<br><br>";
+
+
+
         //this.createMarker(results[i]);
       }
       //this.map.setCenter(results[0].geometry.location);
@@ -144,7 +161,7 @@ export class SearchComponent implements OnInit {
     });
     google.maps.event.addListener(marker, 'click', function () {
       this.infowindow.setContent(place.name);
-      this.nfowindow.open(this.map, this);
+      this.infowindow.open(this.map, this);
     });
   }
 
