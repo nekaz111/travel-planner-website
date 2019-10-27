@@ -7,7 +7,7 @@
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Address" #search>
   </div>
   <div class="panel-body">
-
+    
     <h5>Address: {{address}}</h5>
     <div>Latitude: {{lat}}</div>
     <div>Longitude: {{lng}}</div>
@@ -23,8 +23,8 @@
       </agm-circle>
     </agm-map>
     <div class="restaurant-data">
-      <h6>Restaurants:</h6>
-      <p id="data">Restaurant Data</p>
+      <h6>Restaurants in area:</h6>
+      <div id="data"></div>
     </div>
   </div>
 

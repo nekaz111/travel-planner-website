@@ -11,7 +11,9 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
 export class SearchComponent implements OnInit {
   //starting lat/long/zoom levels for map
   lat = 42.651718;
+
   lng = -73.755089;
+
   zoom = 15;
   //address of lat/long
   address: string;
@@ -20,7 +22,7 @@ export class SearchComponent implements OnInit {
 
   //checking if returned values are correct
   onSubmit(form: NgForm) {
-      console.log('Your form data : ', form.value);
+    console.log('Your form data : ', form.value);
   }
   //helps in converting lat/long to address
   private geoCoder;
@@ -78,11 +80,11 @@ export class SearchComponent implements OnInit {
       });
 
       //var pyrmont = new google.maps.LatLng(42.651718, -73.755089);
-      
+
       //this.map = new google.maps.Map(document.getElementById('map'), {
-     //   center: pyrmont,
-     //   zoom: 15
-     // });
+      //   center: pyrmont,
+      //   zoom: 15
+      // });
 
 
     });
@@ -96,62 +98,116 @@ export class SearchComponent implements OnInit {
       type: ['restaurant']
     };
     this.service = new google.maps.places.PlacesService(document.createElement('div'));
+    
     this.service.nearbySearch(request, this.callback);
+    
   }
 
-  //get place details from library using placeid
-  getDetails(placeID) {
-    var request = {
-      placeId: placeID,
-      fields: ['name', 'formatted_address', 'place_id', 'geometry']
-    };
-    this.service.getDetails(request, function (place, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
+  ////get place details from library using placeid
+  //getDetails(placeID) {
+  //  var request = {
+  //    placeId: placeID,
+  //    fields: ['name', 'formatted_address', 'place_id', 'geometry']
+  //  };
+  //  this.service.getDetails(request, function (place, status) {
+  //    if (status === google.maps.places.PlacesServiceStatus.OK) {
 
-        //var marker = new google.maps.Marker({
-        //  map: map,
-        //  position: place.geometry.location
-        //});
-        //google.maps.event.addListener(marker, 'click', function () {
-          //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-          //  'Place ID: ' + place.place_id + '<br>' +
-          //  place.formatted_address + '</div>');
-          //infowindow.open(map, this);
-        //});
-      }
-    });
-  }
+  //      //var marker = new google.maps.Marker({
+  //      //  map: map,
+  //      //  position: place.geometry.location
+  //      //});
+  //      //google.maps.event.addListener(marker, 'click', function () {
+  //      //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+  //      //  'Place ID: ' + place.place_id + '<br>' +
+  //      //  place.formatted_address + '</div>');
+  //      //infowindow.open(map, this);
+  //      //});
+  //    }
+  //  });
+  //}
 
+  //callback = (results, status) => {
   callback(results, status) {
-    let restaurants = "";
+    document.getElementById("data").innerHTML = "";
+    //let restaurants = "";
     //grab places library values
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       //loop through all values
       for (var i = 0; i < results.length; i++) {
-
+        let restaurants = "";
         //var place = results[i];
         //add results to string to be output
         //use placeid to get specific details
-        restaurants += "<strong>Name: </strong>" + results[i].name + "<br>" + "<strong>PlaceID: </strong>" + results[i].place_id + "<br>" + "<strong>Coordinates: </strong>" + results[i].geometry.location + "<br><br>";
+        //restaurants += "Name: " + results[i].name + "\n" + "PlaceID: " + results[i].place_id + "\n" + "Coordinates: " + results[i].geometry.location + "\n\n";
+        //link for profile page
+        restaurants += "Name: " + results[i].name
+        //this.service = new google.maps.places.PlacesService(document.createElement('div'));
+        //this.service.getDetails(results[i], this.callback2)
+        var page = document.createElement("div")
+        
+        if (restaurants == "") {
+          document.getElementById("data").innerHTML = "None found"
+        }
+        else {
+          var info = document.createTextNode(restaurants)
+          page.appendChild(info)
+          page.appendChild(document.createElement("br"))
+          //create button element
+          
+          var button = document.createElement('BUTTON');
+          //create button text
+          var text = document.createTextNode("Profile");
+          //append text to button
+          button.appendChild(text);
+          //append item to html element
+          page.appendChild(button)
+          page.appendChild(document.createElement("br"))
 
-
-
+          document.getElementById("data").appendChild(page)
+          document.getElementById("data").appendChild(document.createElement("br"))
+        }
         //this.createMarker(results[i]);
       }
       //this.map.setCenter(results[0].geometry.location);
     }
-    console.log(restaurants);
+    //console.log(restaurants);
     //output data to HTML
     //no data found
     //not sure why restaurant data seems to be slightly different from google maps contents
-    if (restaurants == "") {
-      document.getElementById("data").innerHTML = "None found"
-    }
+    //if (restaurants == "") {
+    //  document.getElementById("data").innerHTML = "None found"
+    //}
     //display data
-    else {
-      document.getElementById("data").innerHTML = restaurants
-    }
+    //else {
+     // document.getElementById("data").appendChild(page)
+      
+    //}
   }
+
+  //get place details
+  //callback2 = (place, status) =>{
+  //  let restaurants = "";
+  //  //grab places library values
+  //  if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+  //      //var place = results[i];
+  //      //add results to string to be output
+  //      //use placeid to get specific details
+  //    restaurants += "<strong>Name: </strong>" + place.name + "<br>" + "<strong>PlaceID: </strong>" + place.place_id + "<br>" + "<strong>Coordinates: </strong>" + place.geometry.location + "<br>" + "<strong>Address </strong>" + place.formatted_address + "<br><br>";
+  //  }
+  //  console.log(restaurants);
+  //  //output data to HTML
+  //  //no data found
+  //  //not sure why restaurant data seems to be slightly different from google maps contents
+  //  if (restaurants == "") {
+  //    document.getElementById("data").innerHTML = "None found"
+  //  }
+  //  //display data
+  //  else {
+  //    document.getElementById("data").innerHTML = restaurants
+  //  }
+  //}
+
 
   //make and place marker on map
   createMarker(place) {
