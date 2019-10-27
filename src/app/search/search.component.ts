@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
   zoom = 15;
   //address of lat/long
   address: string;
-  lis: string;
+  list: string;
 
 
   //checking if returned values are correct
@@ -47,8 +47,9 @@ export class SearchComponent implements OnInit {
       this.setCurrentLocation();
       //converts between address and lat/lng
       this.geoCoder = new google.maps.Geocoder;
-      //get/let address based on lat/lng
+      //get/let address and restaurant data based on lat/lng
       this.getAddress(this.lat, this.lng)
+      this.getRestaurantData(this.lat, this.lng)
       //autocomplete text box
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["address"]
@@ -70,32 +71,42 @@ export class SearchComponent implements OnInit {
           this.zoom = 15;
           //update address
           this.getAddress(this.lat, this.lng)
+          this.getRestaurantData(this.lat, this.lng)
         });
       });
 
       //var pyrmont = new google.maps.LatLng(42.651718, -73.755089);
-      this.infowindow = new google.maps.InfoWindow();
+      //this.infowindow = new google.maps.InfoWindow();
       //this.map = new google.maps.Map(document.getElementById('map'), {
      //   center: pyrmont,
      //   zoom: 15
      // });
 
-      var request = {
-        location: {lat: this.lat, lng: this.lng},
-        radius: '1000',
-        type: ['restaurant']
-      };
-
-      this.service = new google.maps.places.PlacesService(document.createElement('div'));
-      this.service.nearbySearch(request, this.callback);
 
     });
 
   }
-
+  //gets restaurant data from google places library
   getRestaurantData(latitude, longitude) {
-
-
+    var request = {
+      location: { lat: latitude, lng: longitude },
+      radius: '500',
+      type: ['restaurant']
+    };
+    /*//draw circle
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      //map: map,
+      center: { lat: latitude, lng: longitude },
+      radius: 1000
+    });
+    */
+    this.service = new google.maps.places.PlacesService(document.createElement('div'));
+    this.service.nearbySearch(request, this.callback);
   }
 
 
@@ -113,7 +124,16 @@ export class SearchComponent implements OnInit {
       //this.map.setCenter(results[0].geometry.location);
     }
     console.log(restaurants);
-    this.list = restaurants;
+    //output data to HTML
+    //no data found
+    //not sure why restaurant data seems to be slightly different from google maps contents
+    if (restaurants == "") {
+      document.getElementById("data").innerHTML = "None found"
+    }
+    //display data
+    else {
+      document.getElementById("data").innerHTML = restaurants
+    }
   }
 
   //make and place marker on map
@@ -136,6 +156,7 @@ export class SearchComponent implements OnInit {
         this.lng = position.coords.longitude;
         this.zoom = 15
         this.getAddress(this.lat, this.lng);
+        this.getRestaurantData(this.lat, this.lng);
       });
     }
   }
@@ -146,6 +167,7 @@ export class SearchComponent implements OnInit {
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
     this.getAddress(this.lat, this.lng);
+    this.getRestaurantData(this.lat, this.lng);
   }
 
   //gets/sets address given lat/lng values

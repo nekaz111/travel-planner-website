@@ -7,15 +7,25 @@
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Address" #search>
   </div>
   <div class="panel-body">
+
+    <h5>Address: {{address}}</h5>
+    <div>Latitude: {{lat}}</div>
+    <div>Longitude: {{lng}}</div>
     <!-- this creates a google map on the page with the given lat/lng from -->
     <!-- the component as the initial center of the map: -->
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]=15>
       <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+      <agm-circle [latitude]="lat" [longitude]="lng"
+                  [radius]="500"
+                  [fillColor]="'red'"
+                  [circleDraggable]="false"
+                  [editable]="false">
+      </agm-circle>
     </agm-map>
-    <h5>Address: {{address}}</h5>
-    <div>Latitude: {{lat}}</div>
-    <div>Longitude: {{lng}}</div>
-    <div>Restaurants: {{list}}</div>
+    <div class="restaurant-data">
+      <h6>Restaurants:</h6>
+      <p id="data">Restaurant Data</p>
+    </div>
   </div>
+
 </div>
-  
