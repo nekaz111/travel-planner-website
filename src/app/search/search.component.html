@@ -9,9 +9,13 @@
   <div class="panel-body">
     <!-- this creates a google map on the page with the given lat/lng from -->
     <!-- the component as the initial center of the map: -->
-    <agm-map [latitude]="lat" [longitude]="lng">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]=15>
       <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
     </agm-map>
+    <h5>Address: {{address}}</h5>
+    <div>Latitude: {{lat}}</div>
+    <div>Longitude: {{lng}}</div>
+    <div>Restaurants: {{list}}</div>
   </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3hUjLo3m61lN4RPkwNwkORUmXRMbaOrE&libraries=places&callback=initMap" async defer></script>
+  
