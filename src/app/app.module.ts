@@ -7,6 +7,7 @@ import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { SharedService } from "./dataService";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
       libraries: ['geometry', 'places']
     })
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

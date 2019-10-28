@@ -7,7 +7,11 @@
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Address" #search>
   </div>
   <div class="panel-body">
-    
+    <h1>Sibling component</h1>
+    <input type="text" [(ngModel)]="message">
+
+    <button (click)="updateService()" type="button">Save</button>
+
     <h5>Address: {{address}}</h5>
     <div>Latitude: {{lat}}</div>
     <div>Longitude: {{lng}}</div>
@@ -23,7 +27,7 @@
       </agm-circle>
     </agm-map>
     <div class="restaurant-data">
-      <h6>Restaurants in area:</h6>
+      <h6>Restaurants in 500 meter area:</h6>
       <div id="data"></div>
     </div>
   </div>

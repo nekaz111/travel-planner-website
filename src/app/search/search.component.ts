@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { SharedService } from "../dataService";
 
 @Component({
   selector: 'app-search',
@@ -9,6 +10,7 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  message: string;
   //starting lat/long/zoom levels for map
   lat = 42.651718;
 
@@ -33,16 +35,21 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private data: SharedService
   ) { }
 
   map;
   service;
   infowindow;
 
-
+  updateService() {
+    //this.data.currentMessage.subscribe(message => this.message = message)
+    this.data.changeMessage(this.message);
+  }
   //initialization procedure
   ngOnInit() {
+    this.data.currentMessage.subscribe(message => this.message = message)
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       //this.infowindow = new google.maps.InfoWindow();
