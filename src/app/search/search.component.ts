@@ -43,9 +43,9 @@ export class SearchComponent implements OnInit {
   service;
   infowindow;
 
-  updateService() {
+  updateService = (text: string = this.message) => {
     //this.data.currentMessage.subscribe(message => this.message = message)
-    this.data.changeMessage(this.message);
+    this.data.changeMessage(text);
   }
   //initialization procedure
   ngOnInit() {
@@ -98,7 +98,7 @@ export class SearchComponent implements OnInit {
 
   }
   //gets restaurant data from google places library
-  getRestaurantData(latitude, longitude) {
+  getRestaurantData = (latitude, longitude) =>{
     var request = {
       location: { lat: latitude, lng: longitude },
       radius: '500',
@@ -134,7 +134,8 @@ export class SearchComponent implements OnInit {
   //}
 
   //callback = (results, status) => {
-  callback(results, status) {
+  callback = (results, status) => {
+
     document.getElementById("data").innerHTML = "";
     //let restaurants = "";
     //grab places library values
@@ -148,6 +149,7 @@ export class SearchComponent implements OnInit {
         //restaurants += "Name: " + results[i].name + "\n" + "PlaceID: " + results[i].place_id + "\n" + "Coordinates: " + results[i].geometry.location + "\n\n";
         //link for profile page
         restaurants += "Name: " + results[i].name
+        
         //this.service = new google.maps.places.PlacesService(document.createElement('div'));
         //this.service.getDetails(results[i], this.callback2)
         var page = document.createElement("div")
@@ -159,9 +161,26 @@ export class SearchComponent implements OnInit {
           var info = document.createTextNode(restaurants)
           page.appendChild(info)
           page.appendChild(document.createElement("br"))
-          //create button element
-          
+          //add restaurant info
+          page.appendChild(document.createTextNode("Place ID: " + results[i].place_id))
+          page.appendChild(document.createElement("br"))
+          page.appendChild(document.createTextNode("Rating: " + results[i].rating))
+          page.appendChild(document.createElement("br"))
+          //get and place image data
+          var image = document.createElement("img")
+          image.setAttribute('src', results[i].photos[0].getUrl({ 'maxWidth': 300, 'maxHeight': 300 }))
+          page.appendChild(image)
+
+          //page.appendChild(document.createTextNode(photos[0].getUrl({ 'maxWidth': 100, 'maxHeight': 100 })))
+      
+
+
+          //create button 
           var button = document.createElement('BUTTON');
+          //button.onclick = this.updateService(results[i].place_id)
+          //button.setAttribute("onClick", "updateService(" + results[i].place_id + ")");
+          var self = this
+          //button.addEventListener('click', this.updateService(results[i].place_id));
           //create button text
           var text = document.createTextNode("Profile");
           //append text to button

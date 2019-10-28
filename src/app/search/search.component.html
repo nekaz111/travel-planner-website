@@ -7,11 +7,9 @@
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Address" #search>
   </div>
   <div class="panel-body">
-    <h1>Sibling component</h1>
     <input type="text" [(ngModel)]="message">
 
     <button (click)="updateService()" type="button">Save</button>
-
     <h5>Address: {{address}}</h5>
     <div>Latitude: {{lat}}</div>
     <div>Longitude: {{lng}}</div>

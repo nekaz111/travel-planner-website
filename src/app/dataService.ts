@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class SharedService {
 
-  private messageSource = new BehaviorSubject<string>("default message");
+  private messageSource = new BehaviorSubject<string>("Enter place ID");
   currentMessage = this.messageSource.asObservable();
 
   constructor() { }

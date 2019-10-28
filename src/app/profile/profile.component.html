@@ -2,8 +2,11 @@
   <h2>Profile Page</h2>
 </div>
 <div class="panel panel-primary">
-  <h1>App component</h1>
   <input type="text" [(ngModel)]="message">
 
   <button (click)="updateService()" type="button">Save</button>
+  <button (click)="getRestaurantData()" type="button">Find Restaurant</button>
+  <p id="name"></p>
+  <p id="rating"></p>
+  <p id="image"></p>
 </div>
